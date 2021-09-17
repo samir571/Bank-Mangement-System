@@ -70,7 +70,7 @@ public static void main(String args[]) {
 @Override
 public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btn_new) {
-		new LoginPage();
+		
 	}
 	
 }
