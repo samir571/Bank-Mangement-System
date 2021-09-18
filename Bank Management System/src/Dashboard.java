@@ -28,7 +28,7 @@ public Dashboard() {
 	// Inserting logo
 		Icon imgIcon1 = new ImageIcon(this.getClass().getResource("bank.png"));
 		JLabel logo = new JLabel(imgIcon1);
-		logo.setBounds(620, 10, 200, 200); 
+		logo.setBounds(600, 10, 200, 200); 
 		background.add(logo);
 	
 	btn_new = new JButton("Open New Account");

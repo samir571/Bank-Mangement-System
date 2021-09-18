@@ -1,12 +1,17 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Random;
+
 import javax.swing.*;
-public class FormFillUpPage {
+public class FormFillUpPage implements ActionListener {
 JFrame frame;
-JLabel lbl_title,lbl_name,lbl_fathername,lbl_DOB,lbl_gender,lbl_acc,lbl_email,lbl_address,lbl_phone;
-JTextField txt_Fname,txt_father,txt_email,txt_address,txt_phone;
+JLabel lbl_title,lbl_name,lbl_fathername,lbl_DOB,lbl_gender,lbl_acc,lbl_email,lbl_address,lbl_phone,lbl_accnum,lbl_accnum1,lbl_year;
+JTextField txt_Fname,txt_father,txt_email,txt_address,txt_phone,txt_year;
 JRadioButton M,F,S,C;
+JButton btn_register;
 JCheckBox check;
 JComboBox Day,month,year;
 String[] date = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
@@ -23,9 +28,15 @@ public FormFillUpPage() {
 	frame.getContentPane().setBackground(color1);
 	lbl_title = new JLabel("New Acccount Application Form");
 	lbl_title.setFont(new Font("TimesRoman", Font.BOLD,20));
-	lbl_title.setBounds(220,5,300,25);
+	lbl_title.setBounds(220,30,300,25);
 	lbl_title.setForeground(Color.blue);
 	frame.add(lbl_title);
+	
+	JLabel logo = new JLabel("");
+	ImageIcon img2 = new ImageIcon(this.getClass().getResource("/bank1.png"));
+	logo.setIcon(img2);
+	logo.setBounds(140, 10, 70, 65);
+	frame.getContentPane().add(logo);
 	
 	// fullname label
 	lbl_name = new JLabel("Full Name:");
@@ -73,6 +84,16 @@ public FormFillUpPage() {
 	lbl_month.setFont(fon2);
 	lbl_month.setBounds(330,246,60,20);
 	frame.add(lbl_month);
+	
+	lbl_year = new JLabel("Year:");
+	lbl_year.setFont(fon2);
+	lbl_year.setBounds(500,245,60,20);
+	frame.add(lbl_year);
+	
+	txt_year = new JTextField();
+	txt_year.setFont(fon2);
+	txt_year.setBounds(550,245,60,20);
+	frame.add(txt_year);
 	
 	
 	
@@ -160,26 +181,111 @@ public FormFillUpPage() {
 	frame.add(S);
 	frame.add(C);
 	
+	lbl_accnum = new JLabel("Account no:");
+	lbl_accnum.setFont(fon1);
+	lbl_accnum.setBounds(30,670,150,50);
+	frame.add(lbl_accnum);
+	
+	lbl_accnum1 = new JLabel("XXXX-XXXX-XXXX-XXXX");
+	lbl_accnum1.setFont(fon1);
+	lbl_accnum1.setBounds(190,670,250,50);
+	frame.add(lbl_accnum1);
+	JLabel info = new JLabel("(Will automatically register 16 digit num)");
+	info.setFont(fon3);
+	info.setBounds(420,685,300,20);
+	frame.add(info);
+
+	
 	
 	// check Box of terms and conditions
 	check = new JCheckBox("Note:- I hereby declare that above given information are correct and I accept all the terms and conditions.");
 	check.setFont(fon3);
-	check.setBounds(20,740,640,15);
+	check.setBounds(20,725,640,15);
 	frame.add(check);
 	
+	btn_register = new JButton("Register");
+	btn_register.setFont(fon2);
+	btn_register.setBounds(230,750,120,40);
+	btn_register.addActionListener(this);
+	frame.add(btn_register);
+	
 	
 
-	
-	
-
-
-	
-	
-	frame.setSize(700,800);
+	frame.setSize(700,860);
 	frame.setLayout(null);
 	frame.setVisible(true);
 }
 public static void main(String args[]) {
 	new FormFillUpPage();
+}
+@Override
+public void actionPerformed(ActionEvent e) {
+	final String fullname = txt_Fname.getText();
+	String father = txt_father.getText();
+	
+	String value = (String)Day.getSelectedItem(); // casting
+	String Day1 = Day.getSelectedItem().toString();
+	
+	String value1 = (String)month.getSelectedItem();
+	String month1 = month.getSelectedItem().toString();
+	
+	String year1 = txt_year.getText();
+	
+	String DOB = Day1 + month1 + " " + year1;
+	
+	String Email = txt_email.getText();
+	
+	String gender = "";
+	if(M.isSelected()){ 
+        gender = "Male";
+    }else if(F.isSelected()){ 
+        gender = "Female";
+    }
+	
+	String address = txt_address.getText();
+	String phone = txt_phone.getText();
+	
+	
+	String acctype = "";
+    if(S.isSelected()){ 
+        acctype = "Saving Account";
+    }
+    else if(C.isSelected()){ 
+        acctype = "Current Account";
+    }
+    
+    Random ran = new Random();
+    long first7 = (ran.nextLong() % 90000000L) + 5040936000000000L;
+    final String cardno = "" + Math.abs(first7);
+    
+	if(e.getSource() == btn_register);{
+	    
+        try {
+            
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/OOP_Login", "root", "Het@uda123");
+
+            PreparedStatement st = (PreparedStatement) con
+                .prepareStatement("Insert into tbl_register values (?,?,?,?,?,?,?,?,?)");
+
+            st.setString(1, fullname);
+            st.setString(2, father);
+            st.setString(3, DOB);
+            st.setString(4, Email);
+            st.setString(5, gender);
+            st.setString(6, address);
+            st.setString(7, phone);
+            st.setString(8, acctype);
+            st.setString(9, cardno);
+
+
+            st.executeUpdate();
+            JOptionPane.showMessageDialog(frame, "Account opened with account num" + " "+ cardno +" and registered succefully!");
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+	
 }
 }
