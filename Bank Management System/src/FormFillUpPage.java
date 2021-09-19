@@ -231,7 +231,7 @@ public void actionPerformed(ActionEvent e) {
 	
 	String year1 = txt_year.getText();
 	
-	String DOB = Day1 + month1 + " " + year1;
+	String DOB = Day1 + " " + month1 + " " + year1;
 	
 	String Email = txt_email.getText();
 	
@@ -259,33 +259,51 @@ public void actionPerformed(ActionEvent e) {
     final String cardno = "" + Math.abs(first7);
     
 	if(e.getSource() == btn_register);{
-	    
-        try {
-            
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/OOP_Login", "root", "Het@uda123");
+		if(check.isSelected()) {
+		    
+	        try {
+	            
+	            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/OOP_Login", "root", "Het@uda123");
 
-            PreparedStatement st = (PreparedStatement) con
-                .prepareStatement("Insert into tbl_register values (?,?,?,?,?,?,?,?,?)");
+	            PreparedStatement st = (PreparedStatement) con
+	                .prepareStatement("Insert into tbl_register values (?,?,?,?,?,?,?,?,?)");
 
-            st.setString(1, fullname);
-            st.setString(2, father);
-            st.setString(3, DOB);
-            st.setString(4, Email);
-            st.setString(5, gender);
-            st.setString(6, address);
-            st.setString(7, phone);
-            st.setString(8, acctype);
-            st.setString(9, cardno);
+	            st.setString(1, fullname);
+	            st.setString(2, father);
+	            st.setString(3, DOB);
+	            st.setString(4, Email);
+	            st.setString(5, gender);
+	            st.setString(6, address);
+	            st.setString(7, phone);
+	            st.setString(8, acctype);
+	            st.setString(9, cardno);
 
 
-            st.executeUpdate();
-            JOptionPane.showMessageDialog(frame, "Account opened with account num" + " "+ cardno +" and registered succefully!");
+	            st.executeUpdate();
+	            JOptionPane.showMessageDialog(frame, "Account opened with account num" + " "+ cardno +" and registered succefully!");
+	            check.setSelected(false);
+	            txt_Fname.setText("");
+	            txt_father.setText("");
+	            txt_email.setText("");
+	            txt_address.setText("");
+	            txt_phone.setText("");
 
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
 
-    }
+
+	            
+
+	        } catch (SQLException sqlException) {
+	            sqlException.printStackTrace();
+	        }
+
+	    }
+		else {
+            JOptionPane.showMessageDialog(frame, "please check Customer terms and conditions!!!");
+
+		}
+		
+	}
+	
 	
 }
 }
