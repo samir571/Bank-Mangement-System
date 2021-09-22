@@ -1,5 +1,6 @@
 import java.sql.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 public class ViewTable 
 {
   public ViewTable()
@@ -49,6 +50,18 @@ public class ViewTable
       table.setShowVerticalLines(true);
       JScrollPane pane = new JScrollPane(table);
       JFrame f = new JFrame("Details of Registered Account Holders");
+      DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+      centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+      table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
+      table.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
+
       f.add(pane);
       f.setSize(1500, 800);
       f.setVisible(true);
