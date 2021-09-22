@@ -74,5 +74,9 @@ public void actionPerformed(ActionEvent e) {
 		
 	}
 	
+	if(e.getSource()== btn_details) {
+		new ViewTable();
+	}
+	
 }
 }
