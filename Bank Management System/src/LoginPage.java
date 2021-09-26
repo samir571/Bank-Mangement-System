@@ -84,11 +84,12 @@ public static void main(String args[])
 
 @Override
 public void actionPerformed(ActionEvent e) {
+	
 	if(e.getSource() == btn_signup) {
 		new SignupPage();
 	}
-	
-	if(e.getSource() == btn_login);{
+	if(e.getSource() == btn_login)
+	{
 		String username1 = id.getText();
         String password1 = pw.getText();
         try {
