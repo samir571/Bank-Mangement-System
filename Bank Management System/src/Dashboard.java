@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 public class Dashboard implements ActionListener {
 JFrame frame;
-JLabel gif,background,logo,check,view;
-JButton btn_new, btn_details;
+JLabel gif,background,logo,check,view,delete;
+JButton btn_new, btn_details,btn_delete;
 public Dashboard() {
 	frame = new JFrame("NMB BANK LTD");
 	Color color1 = new Color(0,204,210);
@@ -56,6 +56,20 @@ public Dashboard() {
 	view.setBounds(440, 520, 60, 60); 
 	background.add(view);
 	
+	btn_delete = new JButton("Delete Account");
+	btn_delete.setBounds(180,630,200,80);
+	btn_delete.setBackground(color1);
+	btn_delete.setFont(new Font("Serif", Font.PLAIN, 20));
+	btn_delete.addActionListener(this);
+	background.add(btn_delete);
+	
+	Icon imgIcon4 = new ImageIcon(this.getClass().getResource("delete.png"));
+	JLabel delete = new JLabel(imgIcon4);
+	delete.setBounds(120, 645, 60, 60); 
+	background.add(delete);
+	
+	
+	
 	
 	
 	frame.setSize(1400,800);
@@ -77,6 +91,11 @@ public void actionPerformed(ActionEvent e) {
 	if(e.getSource()== btn_details) {
 		new ViewTable();
 	}
+	
+	if(e.getSource()== btn_delete) {
+		new DeleteRecord();
+	}
+	
 	
 }
 }
